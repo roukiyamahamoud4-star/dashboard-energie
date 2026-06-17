@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS dashboard_energie;
+
+USE dashboard_energie;
+
+CREATE TABLE IF NOT EXISTS monthly_consumption (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  month_key VARCHAR(7) NOT NULL UNIQUE,
+  target_kwh DECIMAL(10, 2) NOT NULL,
+  total_kwh DECIMAL(10, 2) NOT NULL,
+  percent_used DECIMAL(10, 2) NOT NULL,
+  week_data JSON NOT NULL,
+  devices JSON NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

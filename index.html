@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Energie</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="dashboard">
+    <section class="welcome" id="welcome">
+      <div class="welcome-content">
+        <p class="eyebrow">Projet web</p>
+        <h1>Bienvenue sur Dashboard Energie</h1>
+        <p>
+          Cette application permet de suivre la consommation electrique d'une semaine,
+          de visualiser les kWh par jour et de recevoir une alerte quand la consommation
+          depasse le seuil choisi.
+        </p>
+        <a class="welcome-link" href="#dashboardContent">Voir le dashboard</a>
+      </div>
+      <div class="electric-card" aria-hidden="true">
+        <span class="bolt">&#9889;</span>
+        <span class="pulse"></span>
+        <span class="pulse delay"></span>
+      </div>
+    </section>
+
+    <div id="dashboardContent"></div>
+
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Suivi maison</p>
+        <h1>Dashboard de consommation d'energie</h1>
+      </div>
+      <button id="themeToggle" class="theme-btn" type="button" aria-label="Changer le theme">
+        Mode sombre
+      </button>
+    </header>
+
+    <section class="stats-grid" aria-label="Statistiques principales">
+      <article class="stat-card">
+        <span>Consommation totale</span>
+        <strong id="totalKwh">0 kWh</strong>
+        <small>Cette semaine</small>
+      </article>
+
+      <article class="stat-card">
+        <span>Moyenne journaliere</span>
+        <strong id="averageKwh">0 kWh</strong>
+        <small>Sur 7 jours</small>
+      </article>
+
+      <article class="stat-card">
+        <span>Jour le plus eleve</span>
+        <strong id="highestDay">-</strong>
+        <small id="highestValue">0 kWh</small>
+      </article>
+
+      <article class="stat-card">
+        <span>Appareil le plus utilise</span>
+        <strong id="topDevice">-</strong>
+        <small id="topDeviceValue">0 kWh</small>
+      </article>
+
+      <article class="stat-card">
+        <span>Objectif mensuel utilise</span>
+        <strong id="monthlyPercent">0%</strong>
+        <small id="monthlyTargetText">Objectif : 800 kWh</small>
+      </article>
+    </section>
+
+    <section id="alertBox" class="alert-box" aria-live="polite"></section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Saisie</p>
+          <h2>Remplir la consommation de la semaine</h2>
+        </div>
+        <button id="saveWeekBtn" class="theme-btn" type="button">Mettre a jour</button>
+      </div>
+
+      <div id="weekForm" class="week-form" aria-label="Saisie des consommations par jour"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">MySQL</p>
+          <h2>Enregistrer les donnees du mois</h2>
+        </div>
+        <button id="saveMonthBtn" class="theme-btn" type="button">Sauvegarder</button>
+      </div>
+
+      <div class="month-form">
+        <label for="monthInput">
+          Mois
+          <input id="monthInput" type="month">
+        </label>
+        <label for="monthlyTargetInput">
+          Objectif mensuel
+          <input id="monthlyTargetInput" type="number" min="1" value="800">
+          kWh
+        </label>
+      </div>
+
+      <div class="progress">
+        <div id="monthlyProgressBar" class="progress-bar"></div>
+      </div>
+      <p id="saveStatus" class="device-result">
+        Lancez le serveur Node.js pour sauvegarder les donnees dans MySQL.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Appareils</p>
+          <h2>Detecter l'appareil qui consomme le plus</h2>
+        </div>
+        <label class="threshold-control" for="deviceCount">
+          Nombre d'appareils
+          <input id="deviceCount" type="number" min="1" max="12" value="3">
+        </label>
+      </div>
+
+      <div id="deviceForm" class="device-form" aria-label="Saisie des appareils"></div>
+      <p id="deviceResult" class="device-result">Ajoutez les consommations des appareils pour voir le resultat.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Graphique</p>
+          <h2>Consommation par jour</h2>
+        </div>
+        <label class="threshold-control" for="thresholdInput">
+          Seuil alerte
+          <input id="thresholdInput" type="number" min="1" value="28">
+          kWh
+        </label>
+      </div>
+
+      <p class="threshold-note">
+        L'alerte s'active quand une consommation journaliere est superieure ou egale a
+        <strong><span id="thresholdValue">28</span> kWh</strong>.
+      </p>
+
+      <div id="chart" class="chart" aria-label="Graphique de consommation"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Details</p>
+          <h2>Releve hebdomadaire</h2>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Jour</th>
+            <th>Consommation</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody id="energyTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
